@@ -9,17 +9,29 @@ RSpec.describe StringCalculator do
 
     it 'return sum of numbers' do
       result = string_calculator_obj.add('1, 5')
+
       expect(result).to eq(6)
     end
 
-    it 'return 0 for empty string' do
-      result = string_calculator_obj.add('')
-      expect(result).to eq(0)
+    conext 'Input string size' do
+      it 'return 0 for empty string' do
+        result = string_calculator_obj.add('')
+        expect(result).to eq(0)
+      end
     end
 
-    it 'ignores number greater that 1000' do
-      result = string_calculator_obj.add('1, 2, 1001, 1002, 3')
-      expect(result).to eq(6)
+    context 'Input string with no > 1000' do
+      it 'ignores number greater that 1000' do
+        result = string_calculator_obj.add('1, 2, 1001, 1002, 3')
+        expect(result).to eq(6)
+      end
+    end
+
+    context "Support \n in string" do
+      it 'return sum of valid string' do
+        result = string_calculator_obj.add("1\n2,3")
+        expect(result).to eq(6)
+      end
     end
   end
 end

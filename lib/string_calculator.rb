@@ -4,7 +4,7 @@ class StringCalculator
   attr_accessor :delimiter
 
   def initialize(delimiter = ',')
-    delimiter
+    @delimiter = delimiter
   end
 
   def add(numbers)
@@ -13,7 +13,7 @@ class StringCalculator
   end
 
   def parse_numbers(numbers)
-    numbers = numbers.split(delimiter)
+    numbers = numbers.split(/#{Regexp.escape(delimiter)}|\n/)
     numbers.map(&:to_i)
   end
 end
