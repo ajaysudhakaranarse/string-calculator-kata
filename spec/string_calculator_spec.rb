@@ -46,6 +46,10 @@ RSpec.describe StringCalculator do
       it "return error for invalid string ,1\n" do
         expect { string_calculator_obj.add(",1\n") }.to raise_error(ExceptionHandler::InvalidNumberString)
       end
+
+      it "return error for invalid string //-\n-1-2" do
+        expect { string_calculator_obj.add("//-\n-1-2") }.to raise_error(ExceptionHandler::InvalidNumberString)
+      end
     end
 
     context 'Support different delimiter' do
@@ -58,11 +62,25 @@ RSpec.describe StringCalculator do
         result = string_calculator_obj.add("//$\n1$2")
         expect(result).to eq(3)
       end
+
+      it 'return sum for - as delimiter for numbers string' do
+        result = string_calculator_obj.add("//-\n1-2")
+        expect(result).to eq(3)
+      end
     end
 
     context 'return error for invalid delimiter' do
       it 'retrun exception for invalid numbers string' do
         expect { string_calculator_obj.add("//%\n1$2") }.to raise_error(ExceptionHandler::InvalidNumberString)
+      end
+    end
+
+    context 'return exception for negative numbers in string' do
+      it 'return error for invalid string' do
+        string = '1,3,3,-1,-2'
+        msg = 'negative numbers are not allowed -1, -2'
+
+        expect { string_calculator_obj.add(string) }.to raise_error(ExceptionHandler::NegativeNumbersNotAllowed, msg)
       end
     end
   end

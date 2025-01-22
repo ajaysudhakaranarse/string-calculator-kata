@@ -24,7 +24,15 @@ class StringCalculator
   def validate_numbers(numbers)
     return if numbers.empty?
 
-    pattern = /\d+#{Regexp.escape(delimiter)}?\d+/
+    negative_num_pattern = /-\d+/
+
+    if delimiter != '-' && numbers.match(negative_num_pattern)
+      nos = numbers.scan(negative_num_pattern).join(', ')
+
+      raise ExceptionHandler::NegativeNumbersNotAllowed, "negative numbers are not allowed #{nos}"
+    end
+
+    pattern = /^\d+#{Regexp.escape(delimiter)}?\d+/
 
     return if numbers.match(pattern)
 
