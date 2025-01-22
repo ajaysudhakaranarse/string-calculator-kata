@@ -47,5 +47,23 @@ RSpec.describe StringCalculator do
         expect { string_calculator_obj.add(",1\n") }.to raise_error(ExceptionHandler::InvalidNumberString)
       end
     end
+
+    context 'Support different delimiter' do
+      it 'return sum for % as delimiter for numbers string' do
+        result = string_calculator_obj.add("//%\n1%2")
+        expect(result).to eq(3)
+      end
+
+      it 'return sum for $ as delimiter for numbers string' do
+        result = string_calculator_obj.add("//$\n1$2")
+        expect(result).to eq(3)
+      end
+    end
+
+    context 'return error for invalid delimiter' do
+      it 'retrun exception for invalid numbers string' do
+        expect { string_calculator_obj.add("//%\n1$2") }.to raise_error(ExceptionHandler::InvalidNumberString)
+      end
+    end
   end
 end

@@ -16,6 +16,7 @@ class StringCalculator
   end
 
   def parse_and_sanitize_numbers(numbers)
+    numbers = fetch_delimiter(numbers)
     validate_numbers(numbers)
     parse_numbers(numbers)
   end
@@ -33,5 +34,15 @@ class StringCalculator
   def parse_numbers(numbers)
     numbers = numbers.split(/#{Regexp.escape(delimiter)}|\n/)
     numbers.map(&:to_i)
+  end
+
+  def fetch_delimiter(numbers)
+    pattern = %r{//.+\n}
+    result = numbers.split(pattern)
+    if result.count == 2
+      @delimiter = numbers[2]
+      return result[1]
+    end
+    numbers
   end
 end
